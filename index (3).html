@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Restaurant Sabor Riberalteño | Reservas y Delivery</title>
+  <meta name="description" content="Reservas, delivery y menú típico riberalteño y beniano: lomito, charque, keperí, pescado, paiche, pacú. Horarios, ubicación y promociones." />
+  <meta name="theme-color" content="#0b8c62" />
+  <meta property="og:title" content="Sabor Riberalteño" />
+  <meta property="og:description" content="Hacé tu reserva o pedido en línea. Cocina típica del norte del Beni." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=1280&auto=format&fit=crop" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'%3E%3Ctext y='1em' font-size='96'%3E%F0%9F%90%8A%3C/text%3E%3C/svg%3E" />
+
+  <!-- Bootstrap & Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" />
+
+  <style>
+    :root{
+      --brand:#0b8c62;
+      --brand-2:#0a6a4b;
+      --accent:#f59e0b;
+      --bg:#f6faf8;
+    }
+    html{scroll-behavior:smooth}
+    body{background:var(--bg)}
+    .navbar{box-shadow:0 8px 30px rgba(0,0,0,.06)}
+    .navbar .btn{border-radius:12px}
+    .brand-badge{background:linear-gradient(90deg,var(--brand),#119e6f); color:#fff; border-radius:999px; padding:.25rem .65rem; font-size:.8rem}
+    .hero{
+      /* NEW BG requested */
+      background:linear-gradient(rgba(0,0,0,.25),rgba(0,0,0,.2)),url('https://dynamic-media-cdn.tripadvisor.com/media/photo-o/13/eb/ca/c5/afternoon-at-the-lake.jpg?w=1400&h=1400&s=1') center/cover no-repeat;
+      min-height:86vh; display:grid; place-items:center; color:#fff
+    }
+    .hero h1{font-weight:800; letter-spacing:.5px}
+    /* Make slogan stand out more: solid light card */
+    .hero .card{backdrop-filter:none; background:rgba(255,255,255,.92); color:#0a0f0d; border:1px solid rgba(0,0,0,.05)}
+    .section-title{font-weight:800; letter-spacing:.3px}
+    .pill{border:1px dashed rgba(0,0,0,.12); background:#fff; border-radius:999px; padding:.4rem .8rem}
+    .menu-card{transition:all .25s ease; border:none; border-radius:18px; overflow:hidden; box-shadow:0 8px 28px rgba(0,0,0,.08)}
+    .menu-card:hover{transform:translateY(-2px); box-shadow:0 10px 36px rgba(0,0,0,.1)}
+    .price{font-weight:800; color:var(--brand)}
+    .btn-brand{background:var(--brand); border:0}
+    .btn-brand:hover{background:var(--brand-2)}
+    .badge-accent{background:var(--accent)}
+    .offcanvas{border-top-left-radius:16px; border-bottom-left-radius:16px}
+    .table-sm td, .table-sm th{padding:.5rem .6rem}
+    .gallery img{border-radius:16px; box-shadow:0 10px 24px rgba(0,0,0,.08)}
+    .hours td{vertical-align:middle}
+    .status-dot{width:10px; height:10px; border-radius:50%; display:inline-block; margin-right:.4rem}
+    .status-open{background:#22c55e}
+    .status-closed{background:#ef4444}
+    .sticky-cta{position:fixed; bottom:18px; right:18px; z-index:1040}
+    .sticky-cta .btn{box-shadow:0 12px 30px rgba(11,140,98,.35); border-radius:999px}
+    footer{background:#0a0f0d; color:#d1fae5}
+    .form-hint{font-size:.85rem; color:#666}
+    .small-muted{font-size:.85rem; color:#6b7280}
+    .required::after{content:" *"; color:#ef4444}
+    .promo-card{border:none; border-radius:16px; box-shadow:0 10px 24px rgba(0,0,0,.08)}
+    .table-clean th{background:#f1f5f9}
+    .cursor-pointer{cursor:pointer}
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg bg-white sticky-top">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="#inicio">
+        <span class="brand-badge me-2"><i class="fa-solid fa-fish-fins me-1"></i>SR</span>
+        Sabor Riberalteño
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav" aria-controls="nav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="nav">
+        <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+          <li class="nav-item"><a class="nav-link" href="#menu">Menú</a></li>
+          <li class="nav-item"><a class="nav-link" href="#promos">Promociones</a></li>
+          <li class="nav-item"><a class="nav-link" href="#reservas">Reservas</a></li>
+          <li class="nav-item"><a class="nav-link" href="#delivery">Delivery</a></li>
+          <li class="nav-item"><a class="nav-link" href="#ubicacion">Ubicación</a></li>
+          <li class="nav-item"><a class="nav-link" href="#galeria">Galería</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
+          <li class="nav-item ms-lg-2"><button class="btn btn-sm btn-brand" data-bs-toggle="offcanvas" data-bs-target="#carrito"><i class="fa-solid fa-basket-shopping me-1"></i> Carrito <span class="badge text-bg-light ms-1" id="cartCount">0</span></button></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header id="inicio" class="hero">
+    <div class="container py-5">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="card p-4 p-md-5 text-center rounded-4">
+            <div class="mb-3"><span id="openStatus" class="pill"><span class="status-dot" id="statusDot"></span><span id="statusText">Cargando horario…</span></span></div>
+            <h1 class="display-5 mb-3">Cocina típica del norte del Beni</h1>
+            <p class="lead mb-4">Lomito, charque, keperí, pescado y pacú con sabor auténtico riberalteño. Reservá tu mesa o pedí a domicilio en minutos.</p>
+            <div class="d-flex gap-2 justify-content-center flex-wrap">
+              <a class="btn btn-brand btn-lg" href="#menu"><i class="fa-solid fa-utensils me-2"></i> Ver Menú</a>
+              <a class="btn btn-outline-dark btn-lg" href="#delivery"><i class="fa-solid fa-motorcycle me-2"></i> Pedir Delivery</a>
+            </div>
+            <div class="small-muted mt-3">Horario: 11:30–14:30 y 18:30–00:00, todos los días.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MENÚ -->
+  <section id="menu" class="py-5">
+    <div class="container">
+      <div class="d-flex justify-content-between align-items-end flex-wrap gap-3 mb-3">
+        <div>
+          <h2 class="section-title mb-0">Menú</h2>
+          <div class="small-muted">Platos riberalteños y benianos, con precios en bolivianos.</div>
+        </div>
+        <div class="d-flex gap-2">
+          <input id="searchInput" class="form-control" placeholder="Buscar plato (ej: pescado, charque)…" />
+          <select id="filterCat" class="form-select">
+            <option value="todos">Todas las categorías</option>
+            <option value="carnes">Carnes</option>
+            <option value="pescados">Pescados</option>
+            <option value="tradicionales">Tradicionales</option>
+            <option value="bebidas">Bebidas</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="menuGrid" class="row g-4"></div>
+
+      <div class="alert alert-info mt-4" role="alert">
+        <i class="fa-solid fa-circle-info me-2"></i> Los precios incluyen impuestos. Fotos referenciales. Podés añadir extras y bebidas al finalizar tu pedido.
+      </div>
+    </div>
+  </section>
+
+  <!-- PROMOS -->
+  <section id="promos" class="py-5 bg-white">
+    <div class="container">
+      <div class="row align-items-center g-4">
+        <div class="col-lg-6">
+          <h2 class="section-title">Fechas importantes</h2>
+          <p class="small-muted">El tipo de promoción lo define el restaurante para cada fecha.</p>
+          <div class="row g-3">
+            <div class="col-12">
+              <div class="card promo-card p-3">
+                <div class="d-flex align-items-center justify-content-between">
+                  <div>
+                    <div class="fw-bold">Próxima promoción</div>
+                    <div id="nextPromoLabel" class="small text-muted"></div>
+                  </div>
+                  <span class="badge text-bg-warning">Promo</span>
+                </div>
+                <div class="progress mt-3" role="progressbar" aria-label="Cuenta regresiva a la promo" aria-valuemin="0" aria-valuemax="100">
+                  <div id="promoProgress" class="progress-bar" style="width: 0%"></div>
+                </div>
+                <div id="promoCountdown" class="small-muted mt-2"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Removed the image column as requested -->
+        <div class="col-lg-6 d-none d-lg-block"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESERVAS -->
+  <section id="reservas" class="py-5">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-lg-6">
+          <h2 class="section-title">Reservá tu mesa</h2>
+          <p class="small-muted">Confirmación por WhatsApp o correo. Reservas sujetas a disponibilidad y al horario de atención.</p>
+          <form id="formReserva" class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label required">Nombre y apellido</label>
+              <input class="form-control" name="nombre" required />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label required">Teléfono (WhatsApp)</label>
+              <input class="form-control" name="telefono" required placeholder="Ej: 70000000" pattern="[0-9\s+()-]{7,}" />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label required">Fecha</label>
+              <input type="date" class="form-control" name="fecha" required />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label required">Hora</label>
+              <input type="time" class="form-control" name="hora" required />
+              <div class="form-hint">11:30–14:30 o 18:30–00:00</div>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label required">Personas</label>
+              <input type="number" class="form-control" name="personas" min="1" value="2" required />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Notas (opcional)</label>
+              <input class="form-control" name="notas" placeholder="Ej: mesa cerca a la ventana" />
+            </div>
+            <div class="col-12">
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="sendWhatsReserva" checked />
+                <label class="form-check-label" for="sendWhatsReserva">Enviar por WhatsApp (si desactivás, se enviará por correo)</label>
+              </div>
+            </div>
+            <div class="col-12 d-flex gap-2">
+              <button class="btn btn-brand" type="submit"><i class="fa-solid fa-calendar-check me-2"></i> Reservar</button>
+              <button class="btn btn-outline-secondary" type="reset">Limpiar</button>
+            </div>
+            <div class="small-muted">Al reservar aceptás nuestras <a href="#" data-bs-toggle="modal" data-bs-target="#modalTerminos">políticas de reservas</a>.</div>
+          </form>
+        </div>
+        <div class="col-lg-6">
+          <div class="p-4 bg-white rounded-4 shadow-sm h-100">
+            <h5 class="fw-bold mb-3"><i class="fa-solid fa-clock me-2"></i>Horarios</h5>
+            <table class="table table-sm hours table-clean">
+              <tbody>
+                <tr><th>Lunes a Domingo</th><td>11:30–14:30</td><td>18:30–00:00</td></tr>
+              </tbody>
+            </table>
+            <hr>
+            <h5 class="fw-bold mb-3"><i class="fa-solid fa-circle-question me-2"></i>Preguntas frecuentes</h5>
+            <ul class="small-muted mb-0">
+              <li>Se guarda la reserva 15 min. Si llegás tarde, por favor avisá.</li>
+              <li>Podés cancelar respondiendo al mensaje de confirmación.</li>
+              <li>Grupos de 8+ personas: recomendamos reservar con anticipación.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DELIVERY / PEDIDOS -->
+  <section id="delivery" class="py-5 bg-white">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-lg-7">
+          <h2 class="section-title">Delivery</h2>
+          <p class="small-muted">Armá tu pedido desde el menú. Calculamos automáticamente el envío según zona.</p>
+          <form id="formDelivery" class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label required">Nombre y apellido</label>
+              <input class="form-control" name="nombre" required />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label required">Teléfono (WhatsApp)</label>
+              <input class="form-control" name="telefono" required placeholder="Ej: 70000000" pattern="[0-9\s+()-]{7,}" />
+            </div>
+            <div class="col-md-8">
+              <label class="form-label required">Dirección</label>
+              <input class="form-control" name="direccion" required placeholder="Barrio, calle, número, referencia" />
+              <div class="form-hint">Sugerencia: pegá el enlace de tu ubicación de Google Maps.</div>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label required">Zona</label>
+              <select class="form-select" name="zona" required>
+                <option value="Centro">Centro</option>
+                <option value="La Chonta">La Chonta</option>
+                <option value="Otra">Otra</option>
+              </select>
+              <div class="form-hint">Costo envío aprox. según zona.</div>
+            </div>
+            <div class="col-12">
+              <label class="form-label">Notas al repartidor (opcional)</label>
+              <input class="form-control" name="notas" placeholder="Portón negro, casa de esquina, etc." />
+            </div>
+            <div class="col-12">
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="sendWhatsDelivery" checked />
+                <label class="form-check-label" for="sendWhatsDelivery">Enviar por WhatsApp (si desactivás, se enviará por correo)</label>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="p-3 rounded-3 bg-light">
+                <div class="d-flex justify-content-between"><strong>Subtotal</strong><span id="dlvSubtotal">Bs. 0</span></div>
+                <div class="d-flex justify-content-between"><strong>Envío</strong><span id="dlvEnvio">Bs. 0</span></div>
+                <div class="d-flex justify-content-between fs-5"><strong>Total</strong><span id="dlvTotal">Bs. 0</span></div>
+                <div class="small-muted">El envío puede variar según distancia y tráfico.</div>
+              </div>
+            </div>
+            <div class="col-12 d-flex gap-2">
+              <button class="btn btn-brand" type="submit"><i class="fa-solid fa-paper-plane me-2"></i> Confirmar pedido</button>
+              <button class="btn btn-outline-secondary" type="button" id="btnVaciar">Vaciar carrito</button>
+            </div>
+          </form>
+        </div>
+        <div class="col-lg-5">
+          <div class="p-4 bg-white rounded-4 shadow-sm h-100">
+            <h5 class="fw-bold mb-3"><i class="fa-solid fa-basket-shopping me-2"></i>Tu carrito</h5>
+            <div id="carritoResumen" class="small"></div>
+            <hr>
+            <div class="d-flex justify-content-between"><span>Ítems</span><strong id="cartSubtotal">Bs. 0</strong></div>
+            <div class="d-flex justify-content-between"><span>Envío estimado</span><strong id="cartEnvio">Bs. 0</strong></div>
+            <div class="d-flex justify-content-between fs-5"><span>Total estimado</span><strong id="cartTotal">Bs. 0</strong></div>
+            <div class="small-muted mt-2">Añadí platos desde el Menú para verlos acá.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- UBICACIÓN -->
+  <section id="ubicacion" class="py-5">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-lg-6">
+          <h2 class="section-title">¿Dónde estamos?</h2>
+          <p class="small-muted mb-2">Barrio La Chonta, Av. Plácido Molina (diagonal a Imprenta Bemeco), Riberalta.</p>
+          <div class="ratio ratio-16x9 rounded-4 overflow-hidden">
+            <!-- Keep embed generic for compatibility -->
+            <iframe src="https://www.google.com/maps?q=Riberalta%20La%20Chonta%20Av%20Pl%C3%A1cido%20Molina&output=embed" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+          <div class="mt-3 d-flex gap-2 flex-wrap">
+            <a class="btn btn-outline-secondary" target="_blank" href="https://maps.app.goo.gl/12kjJhaqtFeGx42z5"><i class="fa-solid fa-map me-2"></i>Abrir en Google Maps (ubicación exacta)</a>
+            <a class="btn btn-outline-secondary" href="#contacto"><i class="fa-brands fa-whatsapp me-2"></i>Escribir por WhatsApp</a>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="p-4 bg-white rounded-4 shadow-sm h-100">
+            <h5 class="fw-bold mb-3"><i class="fa-solid fa-bullhorn me-2"></i>Sugerencias y quejas</h5>
+            <form id="formSugerencias" class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label required">Nombre</label>
+                <input class="form-control" name="nombre" required />
+              </div>
+              <div class="col-md-6">
+                <label class="form-label required">Correo</label>
+                <input type="email" class="form-control" name="email" required />
+              </div>
+              <div class="col-12">
+                <label class="form-label required">Mensaje</label>
+                <textarea class="form-control" rows="4" name="mensaje" required></textarea>
+              </div>
+              <div class="col-12 d-flex gap-2">
+                <button class="btn btn-brand" type="submit"><i class="fa-regular fa-paper-plane me-2"></i> Enviar</button>
+                <button class="btn btn-outline-secondary" type="reset">Limpiar</button>
+              </div>
+              <div class="small-muted">Nos ayuda a mejorar. ¡Gracias por tu tiempo!</div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALERÍA -->
+  <section id="galeria" class="py-5 bg-white">
+    <div class="container">
+      <h2 class="section-title mb-4">Galería</h2>
+      <div class="row g-3 gallery">
+        <div class="col-6 col-md-3"><img class="w-100" alt="Lomito" src="https://server-bucket-2022.s3.amazonaws.com/travelapp/5a2d2f60d1be7b43153d5b41952f3ebe_1721443973640.jpeg"></div>
+        <div class="col-6 col-md-3"><img class="w-100" alt="Charque" src="https://jacaranda.com.bo/wp-content/uploads/2024/12/IMG_Jacaranda_charque-entero.webp"></div>
+        <div class="col-6 col-md-3"><img class="w-100" alt="Keperí" src="https://comidasbolivianas.org/wp-content/uploads/2023/01/queperi-comida-tipica-beni-bolivia-1536x1398.jpg"></div>
+        <div class="col-6 col-md-3"><img class="w-100" alt="Chicharrón de Pescado (mediano)" src="https://cocina-casera.com/wp-content/uploads/2018/01/Chicharr%C3%B3n-de-pescado.jpg"></div>
+        <div class="col-6 col-md-3"><img class="w-100" alt="Chicharrón de Pescado (grande)" src="https://comidasperuanas.com.pe/wp-content/uploads/2023/05/Chicharron_de_pescado.jpg"></div>
+        <div class="col-6 col-md-3"><img class="w-100" alt="Filete de Pescado" src="https://media-cdn.tripadvisor.com/media/photo-s/0a/f4/80/28/paiche-fish-filete-de.jpg"></div>
+        <div class="col-6 col-md-3"><img class="w-100" alt="Costilla de Pacú" src="https://trinidadtevajaenamorar.com.bo/Imageneslugares/RESTAURANTES/103/galeria/2023-05-25-COSTILLADEPACU.jpeg"></div>
+        <div class="col-6 col-md-3"><img class="w-100" alt="Majadito aguado de charque" src="https://comidasbolivianas.org/wp-content/uploads/2021/10/majao.jpg"></div>
+        <div class="col-6 col-md-3"><img class="w-100" alt="Jugo de maracuyá" src="https://comedera.com/wp-content/uploads/sites/9/2022/08/Jugo-de-maracuya-con-avenashutterstock_1976561654.jpg?fit=1316,990&crop=0px,125px,1316px,740px"></div>
+        <div class="col-6 col-md-3"><img class="w-100" alt="Jugo de cocona" src="https://i.pinimg.com/736x/63/e4/c3/63e4c3b549e3dd0b5355e0afff917789.jpg"></div>
+        <div class="col-6 col-md-3"><img class="w-100" alt="Gaseosa 500 ml" src="https://www.fidalga.com/cdn/shop/products/COCACOLA-ORIGINAL-PERSONAL-500ML.png?v=1746460941"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section id="contacto" class="py-5">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-lg-6">
+          <h2 class="section-title">Contacto</h2>
+          <ul class="list-unstyled small">
+            <li class="mb-2"><i class="fa-solid fa-phone me-2"></i><a id="telLink" href="#">+591 78794264</a></li>
+            <li class="mb-2"><i class="fa-brands fa-whatsapp me-2"></i><a id="waLink" target="_blank" href="#">WhatsApp directo</a></li>
+            <li class="mb-2"><i class="fa-solid fa-envelope me-2"></i><a href="mailto:contacto@saborriberalteno.bo">contacto@saborriberalteno.bo</a></li>
+            <li class="mb-2"><i class="fa-brands fa-facebook me-2"></i><a href="#" target="_blank">Facebook</a> · <i class="fa-brands fa-instagram ms-3 me-2"></i><a href="#" target="_blank">Instagram</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-6">
+          <div class="p-4 bg-white rounded-4 shadow-sm">
+            <h5 class="fw-bold mb-3"><i class="fa-regular fa-star me-2"></i>Opiniones</h5>
+            <div class="small-muted">Calificación promedio: <span class="text-warning">★★★★★</span> 4.8/5 (clientes felices)</div>
+            <div class="mt-3">
+              <div class="border rounded-3 p-3 mb-2">
+                <div class="fw-semibold">María</div>
+                <div class="text-warning">★★★★★</div>
+                <div class="small">El pescado estuvo excelente. ¡Súper recomendado!</div>
+              </div>
+              <div class="border rounded-3 p-3 mb-2">
+                <div class="fw-semibold">Carlos</div>
+                <div class="text-warning">★★★★☆</div>
+                <div class="small">Entrega rápida y porciones generosas.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="py-4">
+    <div class="container d-flex flex-wrap justify-content-between align-items-center gap-2">
+      <div>© <span id="year"></span> Sabor Riberalteño. Todos los derechos reservados.</div>
+      <div class="small">Hecho con ❤️ en Riberalta.</div>
+    </div>
+  </footer>
+
+  <!-- Sticky CTA -->
+  <div class="sticky-cta d-none d-md-block">
+    <a class="btn btn-brand btn-lg" href="#delivery"><i class="fa-solid fa-motorcycle me-2"></i> Pedir ahora</a>
+  </div>
+
+  <!-- OFFCANVAS CARRITO -->
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="carrito">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title"><i class="fa-solid fa-basket-shopping me-2"></i>Carrito</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body d-flex flex-column">
+      <div id="cartItems" class="flex-grow-1"></div>
+      <div class="border-top pt-3">
+        <div class="d-flex justify-content-between"><strong>Subtotal</strong><span id="ocSubtotal">Bs. 0</span></div>
+        <div class="d-flex justify-content-between"><strong>Envío (estim.)</strong><span id="ocEnvio">Bs. 0</span></div>
+        <div class="d-flex justify-content-between fs-5"><strong>Total</strong><span id="ocTotal">Bs. 0</span></div>
+        <div class="d-grid gap-2 mt-3">
+          <a href="#delivery" class="btn btn-brand" data-bs-dismiss="offcanvas">Ir a confirmar</a>
+          <button class="btn btn-outline-secondary" id="ocVaciar">Vaciar carrito</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL TÉRMINOS -->
+  <div class="modal fade" id="modalTerminos" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Políticas de reservas</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body small">
+          <ul>
+            <li>La reserva se mantiene 15 minutos después de la hora seleccionada.</li>
+            <li>Para grupos grandes podríamos solicitar un anticipo.</li>
+            <li>Los horarios están sujetos a cambios por eventos o feriados.</li>
+          </ul>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-brand" data-bs-dismiss="modal">Entendido</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JSON-LD (SEO) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Restaurant",
+    "name": "Sabor Riberalteño",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Av. Plácido Molina, Barrio La Chonta",
+      "addressLocality": "Riberalta",
+      "addressCountry": "BO"
+    },
+    "servesCuisine": ["Boliviana", "Beniana", "Amazónica"],
+    "openingHours": ["Mo-Su 11:30-14:30", "Mo-Su 18:30-24:00"],
+    "telephone": "+59178794264",
+    "url": "https://jcoca10.github.io/saboriberaleteno/"
+  }
+  </script>
+
+  <!-- Configuración / Variables a personalizar -->
+  <script>
+    const CONFIG = {
+      WHATSAPP_NUMBER: "+591 78794264",
+      FORMSPREE_RESERVA: "https://formspree.io/f/YOUR_FORM_ID_RESERVA",
+      FORMSPREE_DELIVERY: "https://formspree.io/f/YOUR_FORM_ID_DELIVERY",
+      FORMSPREE_SUGERENCIAS: "https://formspree.io/f/YOUR_FORM_ID_SUGERENCIAS",
+      ENVIO_ZONA: { "Centro": 5, "La Chonta": 6, "Otra": 8 },
+      HORARIOS: [
+        { ini: "11:30", fin: "14:30" },
+        { ini: "18:30", fin: "24:00" }
+      ],
+      // Ordered important dates from your photo
+      PROMO_FECHAS: [
+        { mes: 2,  dia: 3,  titulo: "Aniversario de Riberalta" },
+        { mes: 3,  dia: 8,  titulo: "Día de la Mujer" },
+        { mes: 3,  dia: 19, titulo: "Día del Padre" },
+        { mes: 4,  dia: 12, titulo: "Día del Niño" },
+        { mes: 5,  dia: 3,  titulo: "Día de la Tradición" },
+        { mes: 5,  dia: 27, titulo: "Día de la Madre" },
+        { mes: 7,  dia: 26, titulo: "Día de la Bandera" },
+        { mes: 10, dia: 11, titulo: "Día de la Mujer Boliviana" }
+      ]
+    };
+  </script>
+
+  <!-- Datos del Menú -->
+  <script>
+    const MENU = [
+      {
+        id: "lomito",
+        nombre: "Lomito",
+        categoria: "carnes",
+        precio: 20,
+        img: "https://server-bucket-2022.s3.amazonaws.com/travelapp/5a2d2f60d1be7b43153d5b41952f3ebe_1721443973640.jpeg",
+        desc: "Clásico lomito riberalteño con guarnición."
+      },
+      {
+        id: "charque",
+        nombre: "Charque",
+        categoria: "tradicionales",
+        precio: 25,
+        img: "https://jacaranda.com.bo/wp-content/uploads/2024/12/IMG_Jacaranda_charque-entero.webp",
+        desc: "Carne deshidratada al estilo tradicional, acompañada de mote y yuca."
+      },
+      {
+        id: "keperi",
+        nombre: "Keperí",
+        categoria: "carnes",
+        precio: 20,
+        img: "https://comidasbolivianas.org/wp-content/uploads/2023/01/queperi-comida-tipica-beni-bolivia-1536x1398.jpg",
+        desc: "Costillar a la brasa, jugoso y sabroso."
+      },
+      // Chicharrón de pescado (mediano y grande); removed old 'grande paiche'
+      {
+        id: "chicharron-pescado-mediano",
+        nombre: "Chicharrón de Pescado (mediano)",
+        categoria: "pescados",
+        precio: 15,
+        img: "https://cocina-casera.com/wp-content/uploads/2018/01/Chicharr%C3%B3n-de-pescado.jpg",
+        desc: "Bocados de pescado crujiente."
+      },
+      {
+        id: "chicharron-pescado-grande",
+        nombre: "Chicharrón de Pescado (grande)",
+        categoria: "pescados",
+        precio: 20,
+        img: "https://comidasperuanas.com.pe/wp-content/uploads/2023/05/Chicharron_de_pescado.jpg",
+        desc: "Porción ideal para compartir."
+      },
+      // Nuevo plato
+      {
+        id: "majadito-aguado-charque",
+        nombre: "Majadito aguado de charque",
+        categoria: "tradicionales",
+        precio: 25,
+        img: "https://comidasbolivianas.org/wp-content/uploads/2021/10/majao.jpg",
+        desc: "Receta típica con charque, arroz y huevo."
+      },
+      {
+        id: "filete-pescado",
+        nombre: "Filete de Pescado",
+        categoria: "pescados",
+        precio: 20,
+        img: "https://media-cdn.tripadvisor.com/media/photo-s/0a/f4/80/28/paiche-fish-filete-de.jpg",
+        desc: "Filete suave de pescado con ensalada fresca."
+      },
+      {
+        id: "costilla-pacu",
+        nombre: "Costilla de Pacú",
+        categoria: "pescados",
+        precio: 30,
+        img: "https://trinidadtevajaenamorar.com.bo/Imageneslugares/RESTAURANTES/103/galeria/2023-05-25-COSTILLADEPACU.jpeg",
+        desc: "Costillas jugosas de pacú al horno."
+      },
+      // Bebidas
+      { id: "refresco-maracuya", nombre: "Jugo de maracuyá", categoria: "bebidas", precio: 8, img: "https://comedera.com/wp-content/uploads/sites/9/2022/08/Jugo-de-maracuya-con-avenashutterstock_1976561654.jpg?fit=1316,990&crop=0px,125px,1316px,740px", desc: "Natural y refrescante." },
+      { id: "refresco-cocona", nombre: "Jugo de cocona", categoria: "bebidas", precio: 8, img: "https://i.pinimg.com/736x/63/e4/c3/63e4c3b549e3dd0b5355e0afff917789.jpg", desc: "Fruta amazónica." },
+      { id: "gaseosa-500", nombre: "Gaseosa 500 ml", categoria: "bebidas", precio: 7, img: "https://www.fidalga.com/cdn/shop/products/COCACOLA-ORIGINAL-PERSONAL-500ML.png?v=1746460941", desc: "Variedades disponibles." }
+    ];
+  </script>
+
+  <!-- Lógica principal -->
+  <script>
+    // Utilidades
+    const $ = (sel, ctx=document) => ctx.querySelector(sel);
+    const $$ = (sel, ctx=document) => Array.from(ctx.querySelectorAll(sel));
+    const money = n => `Bs. ${Number(n).toFixed(0)}`;
+
+    // Estado
+    let CART = JSON.parse(localStorage.getItem('sr_cart')||'[]');
+
+    function saveCart(){ localStorage.setItem('sr_cart', JSON.stringify(CART)); renderCart(); calcDeliverySummary(); updateCartCount(); }
+    function updateCartCount(){ $('#cartCount').textContent = CART.reduce((a,i)=>a+i.qty,0); }
+
+    // Render Menú
+    function renderMenu(){
+      const grid = $('#menuGrid');
+      grid.innerHTML = '';
+      const term = $('#searchInput').value.toLowerCase().trim();
+      const cat = $('#filterCat').value;
+      const items = MENU.filter(m=>
+        (cat==='todos' || m.categoria===cat || (cat==='tradicionales' && m.categoria==='tradicionales')) &&
+        (term==='' || m.nombre.toLowerCase().includes(term) || m.desc.toLowerCase().includes(term))
+      );
+      if(!items.length){ grid.innerHTML = '<div class="col-12"><div class="alert alert-light">No se encontraron platos.</div></div>'; return; }
+      items.forEach(m=>{
+        const col = document.createElement('div'); col.className='col-12 col-md-6 col-lg-4';
+        col.innerHTML = `
+          <div class="card menu-card h-100">
+            <img class="card-img-top" src="${m.img}" alt="${m.nombre}">
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title">${m.nombre}</h5>
+              <p class="card-text small flex-grow-1">${m.desc}</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="price">${money(m.precio)}</div>
+                <div class="btn-group">
+                  <button class="btn btn-sm btn-outline-secondary" onclick="viewItem('${m.id}')"><i class="fa-regular fa-eye me-1"></i> Ver</button>
+                  <button class="btn btn-sm btn-brand" onclick="addToCart('${m.id}')"><i class="fa-solid fa-plus me-1"></i> Añadir</button>
+                </div>
+              </div>
+            </div>
+          </div>`;
+        grid.appendChild(col);
+      });
+    }
+
+    // Ver ítem (modal rápida)
+    function viewItem(id){
+      const m = MENU.find(x=>x.id===id); if(!m) return;
+      const html = `
+        <div class="modal fade" id="modalItem" tabindex="-1">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">${m.nombre}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <img src="${m.img}" alt="${m.nombre}">
+              <div class="modal-body">
+                <p>${m.desc}</p>
+                <div class="price mb-3">${money(m.precio)}</div>
+                <button class="btn btn-brand" data-bs-dismiss="modal" onclick="addToCart('${m.id}')"><i class="fa-solid fa-plus me-2"></i>Añadir al carrito</button>
+              </div>
+            </div>
+          </div>
+        </div>`;
+      const wrap = document.createElement('div'); wrap.innerHTML = html; document.body.appendChild(wrap);
+      const modal = new bootstrap.Modal(wrap.querySelector('#modalItem')); modal.show();
+      wrap.addEventListener('hidden.bs.modal', ()=>wrap.remove(), {once:true});
+    }
+
+    // Carrito
+    function addToCart(id){
+      const item = MENU.find(x=>x.id===id); if(!item) return;
+      const idx = CART.findIndex(x=>x.id===id);
+      if(idx>=0) CART[idx].qty += 1; else CART.push({id, qty:1});
+      saveCart();
+    }
+    function removeFromCart(id){ CART = CART.filter(x=>x.id!==id); saveCart(); }
+    function setQty(id, q){ const it=CART.find(x=>x.id===id); if(!it) return; it.qty = Math.max(1, q|0); saveCart(); }
+
+    function cartTotals(){
+      let subtotal = 0; const lines = CART.map(ci=>{
+        const m = MENU.find(x=>x.id===ci.id); const line = m.precio*ci.qty; subtotal += line; return {m, ci, line};
+      });
+      return {subtotal, lines};
+    }
+
+    function renderCart(){
+      const {subtotal, lines} = cartTotals();
+      // Offcanvas
+      const cont = $('#cartItems');
+      cont.innerHTML = lines.map(({m,ci,line})=>`
+        <div class="d-flex align-items-center justify-content-between border-bottom py-2">
+          <div class="d-flex align-items-center gap-2">
+            <img src="${m.img}" alt="${m.nombre}" width="54" height="54" class="rounded-3 object-fit-cover">
+            <div>
+              <div class="fw-semibold">${m.nombre}</div>
+              <div class="small-muted">${money(m.precio)} · ${m.categoria}</div>
+            </div>
+          </div>
+          <div class="text-end">
+            <div class="input-group input-group-sm" style="width: 120px;">
+              <button class="btn btn-outline-secondary" onclick="setQty('${m.id}', ${ci.qty-1})">−</button>
+              <input class="form-control text-center" value="${ci.qty}" onchange="setQty('${m.id}', this.value)" />
+              <button class="btn btn-outline-secondary" onclick="setQty('${m.id}', ${ci.qty+1})">+</button>
+            </div>
+            <div class="small mt-1">${money(line)} <button class="btn btn-link btn-sm text-danger" onclick="removeFromCart('${m.id}')">Quitar</button></div>
+          </div>
+        </div>`).join('') || '<div class="text-center text-muted">Tu carrito está vacío.</div>';
+
+      // Resúmenes
+      $('#ocSubtotal').textContent = money(subtotal);
+      const envio = estimateEnvio();
+      $('#ocEnvio').textContent = money(envio);
+      $('#ocTotal').textContent = money(subtotal + envio);
+
+      // Resumen lateral Delivery
+      const resumen = lines.map(({m,ci})=>`<div class="d-flex justify-content-between"><span>${ci.qty}× ${m.nombre}</span><span>${money(m.precio*ci.qty)}</span></div>`).join('');
+      $('#carritoResumen').innerHTML = resumen || '<div class="text-muted">Sin ítems.</div>';
+      $('#cartSubtotal').textContent = money(subtotal);
+      $('#cartEnvio').textContent = money(envio);
+      $('#cartTotal').textContent = money(subtotal+envio);
+    }
+
+    function estimateEnvio(){
+      const zonaSel = ($('[name="zona"]')||{}).value || 'Centro';
+      return CONFIG.ENVIO_ZONA[zonaSel] ?? 0;
+    }
+
+    function calcDeliverySummary(){
+      const {subtotal} = cartTotals();
+      const envio = estimateEnvio();
+      $('#dlvSubtotal').textContent = money(subtotal);
+      $('#dlvEnvio').textContent = money(envio);
+      $('#dlvTotal').textContent = money(subtotal+envio);
+    }
+
+    // Horario abierto/cerrado
+    function isOpenNow(date=new Date()){
+      const pad = n=>String(n).padStart(2,'0');
+      const hm = pad(date.getHours())+":"+pad(date.getMinutes());
+      return CONFIG.HORARIOS.some(h=> hm>=h.ini && hm<=h.fin );
+    }
+    function renderOpenStatus(){
+      const open = isOpenNow();
+      $('#statusDot').className = 'status-dot ' + (open? 'status-open':'status-closed');
+      $('#statusText').textContent = open? 'Abierto ahora' : 'Cerrado ahora';
+    }
+
+    // Promociones: próxima fecha y progreso del año
+    function nextPromo(now=new Date()){
+      const year = now.getFullYear();
+      const list = CONFIG.PROMO_FECHAS.map(p=>{
+        const d = new Date(year, p.mes-1, p.dia);
+        if(d < now) d.setFullYear(year+1);
+        return {date:d, titulo:p.titulo};
+      }).sort((a,b)=>a.date-b.date);
+      return list[0];
+    }
+    function renderPromo(){
+      const now = new Date();
+      const np = nextPromo(now);
+      $('#nextPromoLabel').textContent = `${np.titulo} – ${np.date.toLocaleDateString('es-BO', {day:'2-digit', month:'2-digit', year:'numeric'})}`;
+      const daysDiff = Math.ceil((np.date - now)/86400000);
+      $('#promoCountdown').textContent = `Faltan ${daysDiff} día(s)`;
+      const startYear = new Date(now.getFullYear(),0,1);
+      const endYear = new Date(now.getFullYear(),11,31);
+      const total = endYear - startYear; const elapsed = now - startYear;
+      $('#promoProgress').style.width = (elapsed/total*100).toFixed(1)+'%';
+    }
+
+    // Formularios (Reserva / Delivery / Sugerencias)
+    function toWhatsAppLink(text){
+      const number = CONFIG.WHATSAPP_NUMBER.replace(/[^0-9]/g,'');
+      const url = `https://wa.me/${number}?text=${encodeURIComponent(text)}`;
+      return url;
+    }
+
+    function handleReserva(e){
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      const data = Object.fromEntries(fd.entries());
+      const valid = CONFIG.HORARIOS.some(t=> data.hora>=t.ini && data.hora<=t.fin );
+      if(!valid){ alert('La hora elegida está fuera del horario de atención.'); return; }
+      const msg = `*RESERVA*%0A%0ANombre: ${data.nombre}%0ATeléfono: ${data.telefono}%0AFecha: ${data.fecha}%0AHora: ${data.hora}%0APersonas: ${data.personas}%0ANotas: ${data.notas||'-'}`;
+      if($('#sendWhatsReserva').checked){
+        window.open(toWhatsAppLink(msg), '_blank');
+      } else {
+        fetch(CONFIG.FORMSPREE_RESERVA, { method:'POST', headers:{'Accept':'application/json'}, body: fd })
+          .then(()=>alert('Reserva enviada. Te contactaremos para confirmar.'))
+          .catch(()=>alert('No se pudo enviar. Intentá nuevamente.'));
+      }
+      e.target.reset();
+    }
+
+    function handleDelivery(e){
+      e.preventDefault();
+      const {subtotal} = cartTotals();
+      if(subtotal<=0){ alert('Tu carrito está vacío. Añadí platos desde el Menú.'); return; }
+      const fd = new FormData(e.target);
+      const data = Object.fromEntries(fd.entries());
+      const envio = estimateEnvio();
+      const lines = CART.map(ci=>{ const m=MENU.find(x=>x.id===ci.id); return `${ci.qty}× ${m.nombre} (Bs. ${m.precio})`; }).join('%0A');
+      const total = subtotal + envio;
+      const msg = `*PEDIDO DELIVERY*%0A%0ACliente: ${data.nombre}%0AWhatsApp: ${data.telefono}%0ADirección: ${data.direccion}%0AZona: ${data.zona}%0ANotas: ${data.notas||'-'}%0A%0A*Ítems:*%0A${lines}%0A%0ASubtotal: Bs. ${subtotal}%0AEnvío: Bs. ${envio}%0A*Total: Bs. ${total}*`;
+      if($('#sendWhatsDelivery').checked){
+        window.open(toWhatsAppLink(msg), '_blank');
+      } else {
+        fd.append('detalle_pedido', decodeURIComponent(lines.replaceAll('%0A','\n')) );
+        fd.append('subtotal', subtotal);
+        fd.append('envio', envio);
+        fd.append('total', total);
+        fetch(CONFIG.FORMSPREE_DELIVERY, { method:'POST', headers:{'Accept':'application/json'}, body: fd })
+          .then(()=>alert('Pedido enviado. Te confirmaremos por WhatsApp.'))
+          .catch(()=>alert('No se pudo enviar. Intentá nuevamente.'));
+      }
+    }
+
+    function handleSugerencias(e){
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      if(CONFIG.FORMSPREE_SUGERENCIAS.includes('YOUR_FORM_ID')){ alert('Configurá el FORM ID de Formspree antes de usar este formulario.'); return; }
+      fetch(CONFIG.FORMSPREE_SUGERENCIAS, { method:'POST', headers:{'Accept':'application/json'}, body: fd })
+        .then(()=>{ alert('¡Gracias por tu mensaje!'); e.target.reset(); })
+        .catch(()=>alert('No se pudo enviar. Intentá nuevamente.'));
+    }
+
+    // Eventos
+    document.addEventListener('DOMContentLoaded', ()=>{
+      // Año footer
+      $('#year').textContent = new Date().getFullYear();
+
+      // Links contacto dinámicos
+      const num = CONFIG.WHATSAPP_NUMBER.replace(/[^0-9]/g,'');
+      $('#waLink').href = `https://wa.me/${num}`;
+      $('#telLink').href = `tel:${num}`;
+
+      // Render inicial
+      renderMenu(); renderCart(); renderOpenStatus(); renderPromo(); calcDeliverySummary(); updateCartCount();
+      $('#searchInput').addEventListener('input', renderMenu);
+      $('#filterCat').addEventListener('change', renderMenu);
+      const zonaSel = document.querySelector('[name="zona"]');
+      if(zonaSel) zonaSel.addEventListener('change', ()=>{ renderCart(); calcDeliverySummary(); });
+      const btnVac = document.getElementById('btnVaciar'); if(btnVac) btnVac.addEventListener('click', ()=>{ CART=[]; saveCart(); calcDeliverySummary(); });
+      const ocVac = document.getElementById('ocVaciar'); if(ocVac) ocVac.addEventListener('click', ()=>{ CART=[]; saveCart(); });
+
+      setInterval(()=>{ renderOpenStatus(); }, 60*1000);
+
+      // Formularios
+      $('#formReserva').addEventListener('submit', handleReserva);
+      $('#formDelivery').addEventListener('submit', handleDelivery);
+      $('#formSugerencias').addEventListener('submit', handleSugerencias);
+    });
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
